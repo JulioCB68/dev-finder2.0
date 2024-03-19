@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // const baseUrl = process.env.BASE_URL || '' // Defina a URL base do seu aplicativo
-  const token = request.cookies.get('auth-session-token')
+  const token = request.cookies.get('next-auth.session-token')
   const pathname = request.nextUrl.pathname
-
-  if (pathname === '/auth' && token) {
-    return NextResponse.redirect('/')
+  if (pathname === '/login' && token) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
-
   if (pathname === '/' && !token) {
-    return NextResponse.redirect(new URL('/auth', request.url))
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 }
 
