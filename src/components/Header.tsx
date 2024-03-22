@@ -1,3 +1,5 @@
+'use client'
+
 import { parseCookies } from 'nookies'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
@@ -8,6 +10,8 @@ import { SettingsIcon, SignalIcon } from 'lucide-react'
 
 export default function Header() {
   const user: GithubUser = JSON.parse(parseCookies().user)
+
+  console.log(user)
   return (
     <header className="flex w-full items-center justify-between py-4">
       <div className="flex w-full flex-col items-start px-4">

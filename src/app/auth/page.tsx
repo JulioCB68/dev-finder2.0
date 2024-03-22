@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import { getGithubUser } from '@/services/githubToken'
+import { getGithubUser } from '@/services/github'
 
 export default function Auth() {
   const searchParams = useSearchParams()

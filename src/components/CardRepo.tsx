@@ -1,52 +1,48 @@
+'use client'
+
+import useGithubRepoData from '@/hooks/useGithubRepoData'
+
 import { Badge } from '@/components/ui/badge'
 import {
+  Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-  Card as CardUIComponent,
 } from '@/components/ui/card'
+
+import { getClosestRepos } from '@/utils/getClosestRepos'
 import { Book } from 'lucide-react'
 
-interface ICardProps {
-  id: number
-  name: string
-  visibility: string
-  description: string
-  forksCount: number
-  watchersCount: number
-}
+export default function CardRepo() {
+  const fetchDataGithub = useGithubRepoData()
+  const repos = getClosestRepos(fetchDataGithub)
 
-export default function CardRepo({
-  id,
-  name,
-  visibility,
-  description,
-  forksCount,
-  watchersCount,
-}: ICardProps) {
   return (
-    <CardUIComponent
-      key={id}
-      className="flex h-56 w-96 cursor-pointer flex-col justify-between bg-[#f6f8fa]"
-    >
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div className="flex items-center">
-          <Book className="mr-3" />
-          <CardTitle>{name}</CardTitle>
+    <>
+      {repos.map((item) => (
+        <div key={item.id}>
+          <Card className="flex h-56 w-96 cursor-pointer flex-col justify-between bg-[#f6f8fa]">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center">
+                <Book className="mr-3" />
+                <CardTitle>{item.name}</CardTitle>
+              </div>
+              <Badge variant="secondary">{item.visibility}</Badge>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="line-clamp-4">
+                {item.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Badge variant="secondary">{item.forks_count}</Badge>
+              <Badge variant="secondary">{item.watchers_count}</Badge>
+            </CardFooter>
+          </Card>
         </div>
-        <Badge variant="secondary">{visibility}</Badge>
-      </CardHeader>
-      <CardContent>
-        <CardDescription className="line-clamp-4">
-          {description}
-        </CardDescription>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Badge variant="secondary">{forksCount}</Badge>
-        <Badge variant="secondary">{watchersCount}</Badge>
-      </CardFooter>
-    </CardUIComponent>
+      ))}
+    </>
   )
 }

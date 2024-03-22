@@ -133,3 +133,22 @@ declare interface GithubRepo {
   watchers_count: number
   web_commit_signoff_required: boolean
 }
+
+declare interface GitHubReadme {
+  content: string
+  download_url: string
+  encoding: string
+  git_url: string
+  html_url: string
+  name: string
+  path: string
+  sha: string
+  size: number
+  type: string
+  url: string
+  _links: {
+    self: string
+    git: string
+    html: string
+  }
+}

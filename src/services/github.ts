@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { setCookie } from 'nookies'
+import { api } from './api'
 
 export async function getGithubUser(code: string): Promise<GithubUser> {
   const responseAccessToken = await axios.post(`/api?code=${code}`)
@@ -17,5 +18,12 @@ export async function getGithubUser(code: string): Promise<GithubUser> {
     path: '/',
   })
 
+  return response.data
+}
+
+export async function getGithubUserRepo(
+  username: string,
+): Promise<GithubRepo[]> {
+  const response = await api.get(`/users/${username}/repos`)
   return response.data
 }

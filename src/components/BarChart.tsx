@@ -1,58 +1,67 @@
-import { ResponsiveBar } from '@nivo/bar'
-import { ClassAttributes, HTMLAttributes } from 'react'
+'use client'
 
-export default function BarChart(
-  props: JSX.IntrinsicAttributes &
-    ClassAttributes<HTMLDivElement> &
-    HTMLAttributes<HTMLDivElement>,
-) {
+import { useEffect, useState } from 'react'
+
+import { ResponsiveBar } from '@nivo/bar'
+
+import { getLanguagesProfile } from '@/utils/getLanguagesProfile'
+import useGitHubData from '../hooks/useGithubRepoData'
+
+export default function BarChart() {
+  const [languageData, setLanguageData] = useState<
+    { language: string; value: number }[]
+  >([])
+
+  const fetchDataGithub = useGitHubData()
+
+  useEffect(() => {
+    setLanguageData(getLanguagesProfile(fetchDataGithub))
+  }, [fetchDataGithub])
+
   return (
-    <div {...props}>
+    <div className="h-[30rem] w-full">
+      <h2>Linguagens Mais Utilizadas</h2>
       <ResponsiveBar
-        data={[
-          { name: 'Jan', count: 111 },
-          { name: 'Feb', count: 157 },
-          { name: 'Mar', count: 129 },
-          { name: 'Apr', count: 150 },
-          { name: 'May', count: 119 },
-          { name: 'Jun', count: 72 },
-        ]}
-        keys={['count']}
-        indexBy="name"
-        margin={{ top: 0, right: 0, bottom: 40, left: 40 }}
+        data={languageData}
+        keys={['value']}
+        indexBy="language"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         colors={['#2563eb']}
+        borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+        axisTop={null}
+        axisRight={null}
         axisBottom={{
-          tickSize: 0,
-          tickPadding: 16,
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
         }}
         axisLeft={{
-          tickSize: 0,
-          tickValues: 4,
-          tickPadding: 16,
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'Número de Repositórios',
+          legendPosition: 'middle',
+          legendOffset: -40,
         }}
-        gridYValues={4}
+        labelSkipWidth={12}
+        labelSkipHeight={12}
+        labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+        animate={true}
         theme={{
-          tooltip: {
-            chip: {
-              borderRadius: '9999px',
-            },
-            container: {
-              fontSize: '12px',
-              textTransform: 'capitalize',
-              borderRadius: '6px',
+          axis: {
+            ticks: {
+              text: {
+                fontSize: '14px',
+              },
             },
           },
-          grid: {
-            line: {
-              stroke: '#f3f4f6',
+          labels: {
+            text: {
+              fontSize: '14px',
             },
           },
         }}
-        tooltipLabel={({ id }) => `${id}`}
-        enableLabel={false}
-        role="application"
-        ariaLabel="A bar chart showing data"
       />
     </div>
   )
