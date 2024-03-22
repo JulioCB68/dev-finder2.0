@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Github } from 'lucide-react'
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
 export default function Login() {
@@ -13,7 +12,9 @@ export default function Login() {
         Search for your friends and explore the community
       </p>
       <Button asChild>
-        <Link href="" onClick={() => signIn('github')}>
+        <Link
+          href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
+        >
           <Github className="mr-2 h-6 w-6" /> Login with GitHub
         </Link>
       </Button>

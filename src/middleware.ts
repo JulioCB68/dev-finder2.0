@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('next-auth.session-token')
+  const token = request.cookies.get('user')
   const pathname = request.nextUrl.pathname
   if (pathname === '/login' && token) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+  if (pathname === '/auth' && token) {
     return NextResponse.redirect(new URL('/', request.url))
   }
   if (pathname === '/' && !token) {

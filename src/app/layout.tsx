@@ -1,6 +1,6 @@
-import SessionWrapper from '@/components/SessionWrapper'
 import { robotoMono } from '@/config/font'
 import { metaData } from '@/config/metadata'
+import TanstackProvider from '@/providers/TanStackQuery'
 import '@/styles/globals.css'
 
 export const metadata = metaData
@@ -11,10 +11,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <SessionWrapper>
-      <html lang="en">
-        <body className={robotoMono.className}>{children}</body>
-      </html>
-    </SessionWrapper>
+    <html lang="en">
+      <body className={robotoMono.className}>
+        <TanstackProvider>{children}</TanstackProvider>
+      </body>
+    </html>
   )
 }
