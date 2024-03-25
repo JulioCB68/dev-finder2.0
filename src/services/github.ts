@@ -27,3 +27,10 @@ export async function getGithubUserRepo(
   const response = await api.get(`/users/${username}/repos`)
   return response.data
 }
+
+export async function getGithubUserEvents(
+  username: string,
+): Promise<GithubEvents[]> {
+  const response = await api.get(`/users/${username}/events`)
+  return response.data
+}
