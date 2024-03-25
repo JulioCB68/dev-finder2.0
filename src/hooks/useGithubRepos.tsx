@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { parseCookies } from 'nookies'
 import { useEffect, useMemo, useState } from 'react'
 
-export default function useGithubRepoData() {
+export default function useGithubRepo() {
   const user: GithubUser = JSON.parse(parseCookies().user)
 
   const [repoData, setRepoData] = useState<GithubRepo[]>()

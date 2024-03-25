@@ -1,6 +1,6 @@
 'use client'
 
-import useGithubRepoData from '@/hooks/useGithubRepoData'
+import useGithubRepo from '@/hooks/useGithubRepos'
 
 import { Badge } from '@/components/ui/badge'
 import {
@@ -16,7 +16,7 @@ import { getClosestRepos } from '@/utils/getClosestRepos'
 import { Book } from 'lucide-react'
 
 export default function CardRepo() {
-  const fetchDataGithub = useGithubRepoData()
+  const fetchDataGithub = useGithubRepo()
   const repos = getClosestRepos(fetchDataGithub)
 
   return (
