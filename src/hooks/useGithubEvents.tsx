@@ -15,6 +15,8 @@ export default function useGithubEvents() {
   const { data } = useQuery({
     queryKey: ['githubEvents'],
     queryFn: () => getGithubUserEvents(user.login),
+    retry: false,
+    refetchOnWindowFocus: false,
   })
 
   useEffect(() => {
