@@ -1,6 +1,6 @@
 'use client'
 
-import { parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -38,11 +38,18 @@ import {
   UserPlus,
   Users,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
   const user: GithubUser = JSON.parse(parseCookies().user)
 
-  console.log(user)
+  const route = useRouter()
+
+  function logOut() {
+    destroyCookie(null, 'user')
+    route.refresh()
+  }
+
   return (
     <header className="flex w-full items-center justify-between py-4">
       <div className="flex w-full flex-col items-start px-4">
@@ -70,7 +77,7 @@ export default function Header() {
                 <Github className="mr-2 h-4 w-4" />
                 <span>DevFinder</span>
                 <DropdownMenuShortcut>
-                  <span className="animate-ping-slow inline-block h-2 w-2 rounded-full bg-green-600" />
+                  <span className="inline-block h-2 w-2 animate-ping-slow rounded-full bg-green-600" />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -205,10 +212,9 @@ export default function Header() {
               <span>API</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logOut}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

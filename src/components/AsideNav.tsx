@@ -1,3 +1,7 @@
+'use client'
+
+import { destroyCookie } from 'nookies'
+
 import { Button } from '@/components/ui/button'
 
 import {
@@ -13,8 +17,15 @@ import {
   Reply,
   User,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function AsideNav() {
+  const route = useRouter()
+  function logOut() {
+    destroyCookie(null, 'user')
+    route.refresh()
+  }
+
   return (
     <aside className="w-72 rounded-s-lg border-r bg-white p-6 lg:flex">
       <div className="flex w-60 flex-col">
@@ -61,7 +72,11 @@ export default function AsideNav() {
             <CheckCircle className="h-4 w-4 opacity-50" />
             Actions
           </div>
-          <Button className="mt-auto flex items-center" variant="outline">
+          <Button
+            className="mt-auto flex items-center"
+            variant="outline"
+            onClick={logOut}
+          >
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
