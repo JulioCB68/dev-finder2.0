@@ -47,7 +47,7 @@ export default function Header() {
 
   function logOut() {
     destroyCookie(null, 'user')
-    route.refresh()
+    route.replace('/login')
   }
 
   return (

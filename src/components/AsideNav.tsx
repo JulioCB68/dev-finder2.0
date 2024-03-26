@@ -23,7 +23,7 @@ export default function AsideNav() {
   const route = useRouter()
   function logOut() {
     destroyCookie(null, 'user')
-    route.refresh()
+    route.replace('/login')
   }
 
   return (
