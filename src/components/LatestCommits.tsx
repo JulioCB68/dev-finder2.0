@@ -22,7 +22,7 @@ export default function LatestCommits() {
       {commit?.map((item) => (
         <ul key={item.id} className="space-y-2">
           <li className="my-2">
-            <div className="rounded bg-gray-100 p-3">
+            <div className="rounded bg-gray-100 p-3 text-left">
               <p className="text-sm text-gray-600">
                 {formatDate(item.created_at)}
               </p>

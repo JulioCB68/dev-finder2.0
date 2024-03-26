@@ -20,7 +20,7 @@ export default function BarChart() {
 
   return (
     <div className="h-[30rem] w-full">
-      <h2>Linguagens Mais Utilizadas</h2>
+      <h2>Most Used Languages</h2>
       <ResponsiveBar
         data={languageData}
         keys={['value']}

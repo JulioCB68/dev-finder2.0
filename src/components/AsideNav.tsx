@@ -9,6 +9,7 @@ import {
   GitPullRequest,
   Github,
   Home,
+  LogOut,
   Reply,
   User,
 } from 'lucide-react'
@@ -60,7 +61,8 @@ export default function AsideNav() {
             <CheckCircle className="h-4 w-4 opacity-50" />
             Actions
           </div>
-          <Button className="mt-auto" variant="outline">
+          <Button className="mt-auto flex items-center" variant="outline">
+            <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
         </div>

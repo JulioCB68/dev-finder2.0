@@ -1,11 +1,6 @@
 import AsideNav from '@/components/AsideNav'
-import CardRepo from '@/components/CardRepo'
-import BarChart from '@/components/Charts/BarChart'
-import CalendarChart from '@/components/Charts/CalendarChart'
 import Header from '@/components/Header'
-import LatestCommits from '@/components/LatestCommits'
 import { Separator } from '@/components/ui/separator'
-import { Activity, Calendar, CalendarDays, Pin } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -15,7 +10,7 @@ export default function Home() {
         <div className="h-[55rem] flex-1 overflow-y-scroll px-8">
           <Header />
           <Separator />
-          <div className="mt-14">
+          {/* <div className="mt-14">
             <h2 className="mb-4 flex items-center text-left text-lg font-bold">
               <Pin className="mr-3 rotate-45" />
               Most Recent
@@ -46,7 +41,7 @@ export default function Home() {
               Contributions
             </h2>
             <CalendarChart />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
