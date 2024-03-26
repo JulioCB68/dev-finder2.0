@@ -11,7 +11,7 @@ export default function NotFound() {
             Oops! Page Not Found
           </h1>
         </div>
-        <p className="mx-auto max-w-[600px] text-gray-100 md:text-xl/relaxed dark:text-gray-400">
+        <p className="mx-auto max-w-[600px] text-gray-100 dark:text-gray-400 md:text-xl/relaxed">
           The page you are looking for might have been removed, had its name
           changed, or is temporarily unavailable.
         </p>
