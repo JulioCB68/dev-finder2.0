@@ -15,6 +15,7 @@ export default function useGithubRepo() {
     queryFn: () => getGithubUserRepo(user.login),
     retry: false,
     refetchOnWindowFocus: false,
+    staleTime: 3600000,
   })
 
   useEffect(() => {
