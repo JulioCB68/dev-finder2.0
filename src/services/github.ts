@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { setCookie } from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
 import { api } from './api'
 
-export async function getGithubUser(code: string): Promise<GithubUser> {
+export async function getGithubToken(code: string): Promise<GithubUser> {
   const responseAccessToken = await axios.post(`/api?code=${code}`)
   const data = await responseAccessToken.data
   const accessToken = data.access_token
@@ -13,9 +13,22 @@ export async function getGithubUser(code: string): Promise<GithubUser> {
     },
   })
 
-  setCookie(null, 'user', JSON.stringify(response.data), {
+  setCookie(null, 'next-auth_github-code', accessToken, {
     maxAge: 7 * 24 * 60 * 60,
     path: '/',
+  })
+
+  return response.data
+}
+
+export async function getGithubUser(): Promise<GithubUser> {
+  const cookies = parseCookies()
+  const accessToken = cookies['next-auth_github-code']
+
+  const response = await axios.get('https://api.github.com/user', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response.data
