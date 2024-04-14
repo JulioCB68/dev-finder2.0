@@ -1,7 +1,11 @@
 'use client'
 
-import useGithubRepo from '@/hooks/useGithubRepos'
+import { useQuery } from '@tanstack/react-query'
 
+import { getGithubUser, getGithubUserRepo } from '@/services/github'
+import { getClosestRepos } from '@/utils/getClosestRepos'
+
+import Loading from '@/components/loading'
 import { Badge } from '@/components/ui/badge'
 import {
   Card,
@@ -12,7 +16,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import { getClosestRepos } from '@/utils/getClosestRepos'
 import { Book } from 'lucide-react'
 
 interface IRepositoriesProps {
@@ -20,8 +23,26 @@ interface IRepositoriesProps {
 }
 
 export default function CardRepo({ data }: IRepositoriesProps) {
-  const fetchDataGithub = useGithubRepo()
-  const repos = getClosestRepos(fetchDataGithub)
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: () => getGithubUser(),
+  })
+
+  const username = user?.login
+
+  const { data: repo, isLoading } = useQuery({
+    queryKey: ['githubRepo', username],
+    queryFn: () => getGithubUserRepo(username as string),
+    enabled: !!username,
+  })
+
+  const repos = getClosestRepos(repo)
+
+  if (isLoading) {
+    return Array.from({ length: repos.length }, (_, index) => (
+      <Loading key={index} />
+    ))
+  }
 
   return (
     <>

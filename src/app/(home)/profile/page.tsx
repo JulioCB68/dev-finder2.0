@@ -1,7 +1,5 @@
 'use client'
 
-import { parseCookies } from 'nookies'
-
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+
+import { getGithubUser } from '@/services/github'
+import { useQuery } from '@tanstack/react-query'
 
 import {
   CalendarIcon,
@@ -23,7 +24,10 @@ import {
 } from 'lucide-react'
 
 export default function Profile() {
-  const user: GithubUser = JSON.parse(parseCookies().user)
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: getGithubUser,
+  })
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -37,14 +41,14 @@ export default function Profile() {
             <Avatar className="h-12 w-12 border">
               <AvatarImage
                 alt="User avatar"
-                src={user.avatar_url}
+                src={user?.avatar_url}
                 className="cursor-pointer"
               />
             </Avatar>
             <div className="flex flex-col items-start">
-              <CardTitle className="text-base">John Doe</CardTitle>
+              <CardTitle className="text-base">{user?.name}</CardTitle>
               <CardDescription className="text-sm">
-                john@example.com
+                {user?.email}
               </CardDescription>
             </div>
           </div>

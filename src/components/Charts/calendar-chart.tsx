@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 
 import { ResponsiveCalendar } from '@nivo/calendar'
 
-import useGithubEvents from '@/hooks/useGithubEvents'
+import { getGithubUser, getGithubUserEvents } from '@/services/github'
+import { useQuery } from '@tanstack/react-query'
 
 interface Contribution {
   day: string
@@ -14,11 +15,28 @@ interface Contribution {
 export default function CalendarChart() {
   const [contributions, setContributions] = useState<Contribution[]>([])
 
-  const events = useGithubEvents()
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: getGithubUser,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 3600000,
+  })
+
+  const username = user?.login
+
+  const { data } = useQuery({
+    queryKey: ['githubEvents', username],
+    queryFn: () => getGithubUserEvents(username ?? ''),
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 3600000,
+    enabled: !!username,
+  })
 
   useEffect(() => {
     // Filter events relevant to contributions
-    const contributionEvents = events?.filter((event: GithubEvents) =>
+    const contributionEvents = data?.filter((event: GithubEvents) =>
       [
         'PushEvent',
         'PullRequestEvent',
@@ -43,7 +61,7 @@ export default function CalendarChart() {
     )
 
     setContributions(formattedData)
-  }, [events])
+  }, [data])
 
   return (
     <div className="h-[23rem] w-full">

@@ -1,7 +1,7 @@
-import CardRepo from '@/components/CardRepo'
-import BarChart from '@/components/Charts/BarChart'
-import CalendarChart from '@/components/Charts/CalendarChart'
-import LatestCommits from '@/components/LatestCommits'
+import BarChart from '@/components/Charts/bar-chart'
+import CalendarChart from '@/components/Charts/calendar-chart'
+import CardRepo from '@/components/card-repo'
+import LatestCommits from '@/components/latest-commits'
 import { Activity, Calendar, CalendarDays, Pin } from 'lucide-react'
 
 export default function Home() {

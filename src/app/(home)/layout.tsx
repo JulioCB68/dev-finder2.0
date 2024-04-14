@@ -1,5 +1,5 @@
-import AsideNav from '@/components/AsideNav'
-import Header from '@/components/Header'
+import AsideNav from '@/components/aside-nav'
+import Header from '@/components/header'
 import { Separator } from '@/components/ui/separator'
 
 export default function DefaultLayout({

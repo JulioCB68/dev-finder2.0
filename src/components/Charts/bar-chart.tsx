@@ -4,19 +4,31 @@ import { useEffect, useState } from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
+import { getGithubUser, getGithubUserRepo } from '@/services/github'
 import { getLanguagesProfile } from '@/utils/getLanguagesProfile'
-import useGitHubData from '../../hooks/useGithubRepos'
+import { useQuery } from '@tanstack/react-query'
 
 export default function BarChart() {
   const [languageData, setLanguageData] = useState<
     { language: string; value: number }[]
   >([])
 
-  const fetchDataGithub = useGitHubData()
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: getGithubUser,
+  })
+
+  const username = user?.login
+
+  const { data: repo } = useQuery({
+    queryKey: ['githubRepo', username],
+    queryFn: () => getGithubUserRepo(username as string),
+    enabled: !!username,
+  })
 
   useEffect(() => {
-    setLanguageData(getLanguagesProfile(fetchDataGithub))
-  }, [fetchDataGithub])
+    setLanguageData(getLanguagesProfile(repo))
+  }, [repo])
 
   return (
     <div className="h-[30rem] w-full">

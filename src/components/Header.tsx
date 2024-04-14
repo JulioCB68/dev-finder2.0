@@ -1,6 +1,7 @@
 'use client'
 
-import { destroyCookie, parseCookies } from 'nookies'
+import { useRouter } from 'next/navigation'
+import { destroyCookie } from 'nookies'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -20,6 +21,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 
+import { getGithubUser } from '@/services/github'
+import { useQuery } from '@tanstack/react-query'
 import {
   Cloud,
   CreditCard,
@@ -38,15 +41,17 @@ import {
   UserPlus,
   Users,
 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 
 export default function Header() {
-  const user: GithubUser = JSON.parse(parseCookies().user)
-
   const route = useRouter()
 
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: getGithubUser,
+  })
+
   function logOut() {
-    destroyCookie(null, 'user')
+    destroyCookie(null, 'next-auth_github-code')
     route.replace('/login')
   }
 
@@ -156,7 +161,7 @@ export default function Header() {
             <Avatar>
               <AvatarImage
                 alt="User avatar"
-                src={user.avatar_url}
+                src={user?.avatar_url}
                 className="cursor-pointer"
               />
             </Avatar>

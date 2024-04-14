@@ -1,9 +1,8 @@
 'use client'
 
+import { getGithubToken } from '@/services/github'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
-
-import { getGithubUser } from '@/services/github'
 import { useEffect } from 'react'
 
 export default function Auth() {
@@ -12,9 +11,9 @@ export default function Auth() {
   const searchParams = useSearchParams()
   const code = searchParams.get('code')
 
-  const { data } = useQuery({
+  useQuery({
     queryKey: ['githubToken'],
-    queryFn: () => getGithubUser(code as string),
+    queryFn: () => getGithubToken(code!),
     retry: false,
   })
 

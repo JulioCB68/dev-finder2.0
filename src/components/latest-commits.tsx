@@ -2,13 +2,26 @@
 
 import { useEffect, useState } from 'react'
 
-import useGithubEvents from '@/hooks/useGithubEvents'
+import { useQuery } from '@tanstack/react-query'
+
+import { getGithubUser, getGithubUserEvents } from '@/services/github'
 import { formatDate } from '@/utils/formatDate'
 
 export default function LatestCommits() {
-  const [commit, setCommit] = useState<GithubEvents[] | undefined>([])
+  const { data: user } = useQuery({
+    queryKey: ['githubUser'],
+    queryFn: getGithubUser,
+  })
 
-  const events = useGithubEvents()
+  const username = user?.login
+
+  const { data: events } = useQuery({
+    queryKey: ['githubEvents', username],
+    queryFn: () => getGithubUserEvents(username as string),
+    enabled: !!username,
+  })
+
+  const [commit, setCommit] = useState<GithubEvents[] | undefined>([])
 
   useEffect(() => {
     const commits = events?.filter(

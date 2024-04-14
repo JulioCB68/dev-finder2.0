@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { destroyCookie } from 'nookies'
 
 import { Button } from '@/components/ui/button'
@@ -17,12 +18,12 @@ import {
   Reply,
   User,
 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 
 export default function AsideNav() {
   const route = useRouter()
+
   function logOut() {
-    destroyCookie(null, 'user')
+    destroyCookie(null, 'next-auth_github-code')
     route.replace('/login')
   }
 
