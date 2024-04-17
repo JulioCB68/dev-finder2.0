@@ -5,6 +5,7 @@ import { destroyCookie } from 'nookies'
 
 import { Button } from '@/components/ui/button'
 
+import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Book,
   Bug,
@@ -22,13 +23,17 @@ import {
 export default function AsideNav() {
   const route = useRouter()
 
+  const isWideScreen = useMediaQuery('(min-width: 1536px)')
+
   function logOut() {
     destroyCookie(null, 'next-auth_github-code')
     route.replace('/login')
   }
 
   return (
-    <aside className="w-72 rounded-s-lg border-r bg-white p-6 lg:flex">
+    <aside
+      className={`${isWideScreen ? 'flex' : 'hidden'} w-72 rounded-s-lg border-r bg-white p-6 lg:flex`}
+    >
       <div className="flex w-60 flex-col">
         <div className="flex h-14 items-center">
           <div className="flex items-center gap-2 font-semibold">

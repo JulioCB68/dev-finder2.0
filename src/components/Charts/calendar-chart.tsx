@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { ResponsiveCalendar } from '@nivo/calendar'
 
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { getGithubUser, getGithubUserEvents } from '@/services/github'
 import { useQuery } from '@tanstack/react-query'
 
@@ -13,6 +14,8 @@ interface Contribution {
 }
 
 export default function CalendarChart() {
+  const isWideScreen = useMediaQuery('(min-width: 1536px)')
+
   const [contributions, setContributions] = useState<Contribution[]>([])
 
   const { data: user } = useQuery({
@@ -64,7 +67,7 @@ export default function CalendarChart() {
   }, [data])
 
   return (
-    <div className="h-[23rem] w-full">
+    <div className="h-[10rem] w-full 2xl:h-[23rem]">
       <ResponsiveCalendar
         data={contributions}
         from={contributions.length > 0 ? contributions[0].day : ''}
@@ -75,7 +78,11 @@ export default function CalendarChart() {
         }
         emptyColor="#ebedf0"
         colors={['#9be9a8', '#40c463', '#30a14e', '#216e39']}
-        margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+        margin={
+          isWideScreen
+            ? { top: 40, right: 40, bottom: 40, left: 40 }
+            : { top: 0, right: 0, bottom: 0, left: 0 }
+        }
         yearSpacing={40}
         monthBorderColor="#ffffff"
         dayBorderWidth={2}
