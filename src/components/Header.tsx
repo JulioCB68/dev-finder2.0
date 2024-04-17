@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { getGithubUser } from '@/services/github'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -41,9 +42,12 @@ import {
   UserPlus,
   Users,
 } from 'lucide-react'
+import Menu from './menu-mobile'
 
 export default function Header() {
   const route = useRouter()
+
+  const isWideScreen = useMediaQuery('(min-width: 1536px)')
 
   const { data: user } = useQuery({
     queryKey: ['githubUser'],
@@ -56,20 +60,31 @@ export default function Header() {
   }
 
   return (
-    <header className="flex w-full items-center justify-between py-4">
-      <div className="flex w-full flex-col items-start px-4">
-        <p className="text-2xl">Search GitHub Profile</p>
-        <p className="text-gray-500 dark:text-gray-400">
+    <header className="flex w-full flex-col items-center justify-between py-4 sm:flex-col 2xl:flex-row">
+      <div className="flex w-full flex-col items-start pb-4 2xl:pb-0">
+        <div className="flex w-full items-center justify-between pb-4 2xl:pb-0">
+          <p className="lg:text-2xl">Search GitHub Profile</p>
+          <div className={`${isWideScreen ? 'hidden' : 'flex'} size-6`}>
+            <Menu />
+          </div>
+        </div>
+        <p className="text-left text-gray-500 dark:text-gray-400">
           Enter a GitHub username to see their profile and repositories
         </p>
       </div>
-      <div className="w-[45rem]">
+      <div className="w-full 2xl:w-[45rem]">
         <div className="flex gap-4">
-          <Input id="username" placeholder="Enter a username" />
+          <Input
+            id="username"
+            placeholder="Enter a username"
+            className="focus:bg-red-700 focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
           <Button className="w-28">Search</Button>
         </div>
       </div>
-      <div className="flex items-center gap-4 pl-20">
+      <div
+        className={`${isWideScreen ? 'flex' : 'hidden'} items-center gap-4 pl-20`}
+      >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SignalIcon className="cursor-pointer text-gray-600" />
