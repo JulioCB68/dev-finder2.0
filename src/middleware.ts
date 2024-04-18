@@ -13,6 +13,11 @@ export function middleware(request: NextRequest) {
   if (pathname === '/' && !accessToken) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
+
+  // Redirect to home page if user tries access route "/auth" and is  authenticated
+  if (pathname === '/auth' && accessToken) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
 }
 
 // Configuration to only capture the pages that are accessed and not the Next assets or api
