@@ -80,22 +80,27 @@ export default function CardRepo({ data }: IRepositoriesProps) {
 
       {data &&
         data.map((item) => (
-          <div key={item.id}>
-            <Card className="flex cursor-pointer flex-col justify-between bg-[#f6f8fa]">
+          <div key={item.id} className="w-full md:w-auto">
+            <Card className="flex min-h-56 w-full cursor-pointer flex-col justify-between bg-[#f6f8fa] md:w-72 2xl:w-96">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center">
                   <Book className="mr-3" />
                   <CardTitle>{item.name}</CardTitle>
                 </div>
-                <Badge variant="secondary">{item.visibility}</Badge>
+                {isWideScreen && (
+                  <Badge variant="secondary">{item.visibility}</Badge>
+                )}
               </CardHeader>
               <CardContent>
-                <CardDescription className="line-clamp-4">
+                <CardDescription className="md:line-clamp-2 2xl:line-clamp-4">
                   {item.description}
                 </CardDescription>
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Badge variant="secondary">{item.forks_count}</Badge>
+                {!isWideScreen && (
+                  <Badge variant="secondary">{item.visibility}</Badge>
+                )}
                 <Badge variant="secondary">{item.watchers_count}</Badge>
               </CardFooter>
             </Card>

@@ -77,7 +77,7 @@ export default function Header() {
           <Input
             id="username"
             placeholder="Enter a username"
-            className="focus:bg-red-700 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="focus:bg-white focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <Button className="w-28">Search</Button>
         </div>

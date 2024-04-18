@@ -15,7 +15,6 @@ export async function getGithubToken(code: string): Promise<GithubUser> {
 
   setCookie(null, 'next-auth_github-code', accessToken, {
     maxAge: 7 * 24 * 60 * 60,
-    path: '/',
   })
 
   return response.data

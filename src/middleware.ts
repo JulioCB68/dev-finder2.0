@@ -1,21 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('user')
-  const pathname = request.nextUrl.pathname
+  const { pathname } = request.nextUrl
+  const accessToken = request.cookies.get('next-auth_github-code')
 
   // Redirect to home page if user is authenticated and tries to access "/login" route
-  if (pathname === '/login' && token) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
-
-  // Redirect to home page if user is authenticated and tries to access "/auth" route
-  if (pathname === '/auth' && token) {
+  if (pathname === '/login' && accessToken) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
   // Redirect to login page if user is NOT authenticated and tries to access route "/"
-  if (pathname === '/' && !token) {
+  if (pathname === '/' && !accessToken) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 }

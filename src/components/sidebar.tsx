@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { destroyCookie } from 'nookies'
 
-import { Button } from '@/components/ui/button'
-
 import { useMediaQuery } from '@/hooks/use-media-query'
+
+import { Button } from '@/components/ui/button'
 import {
   Book,
   Bug,
